@@ -8,15 +8,15 @@ import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
 import { useNavigation } from '@react-navigation/native';
-import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 
-function SignIn() {
-  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+function SignUp() {
+  const navigation = useNavigation();
 
 
-  const handleNewAccount = () => {
-    navigation.navigate('signUp');
+  const handleGoBack = () => {
+    navigation.goBack();
   }
+
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} >
@@ -36,8 +36,20 @@ function SignIn() {
 
         <Center mt={5}>
           <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
-            Acesse sua conta
+            Crie sua conta
           </Heading>
+
+          <Input
+            mb={4}
+            placeholder="Nome"
+            placeholderTextColor="gray.300"
+            autoCapitalize='words'
+            _focus={{
+              bg: "gray.700",
+              borderWidth: 1,
+              borderColor: "green.500"
+            }}
+          />
 
           <Input
             mb={4}
@@ -64,19 +76,15 @@ function SignIn() {
             }}
           />
 
-          <Button title='Acessar' />
+          <Button title='Criar e acessar' />
         </Center>
 
         <Center mt={24} >
-          <Heading color="gray.100" fontSize="sm" mb={6} fontFamily="body">
-            Ainda não tem acesso?
-          </Heading>
-
-          <Button title='Criar conta' variant="outline" onPress={handleNewAccount} />
+          <Button title='Voltar para o login' variant="outline" onPress={handleGoBack} />
         </Center>
       </VStack>
     </ScrollView>
   );
 }
 
-export default SignIn
+export default SignUp
