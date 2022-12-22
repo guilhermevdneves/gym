@@ -1,7 +1,10 @@
 
+import Loading from '@components/Loading';
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
+import Signin from '@screens/Signin';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import { THEME } from './src/theme';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,18 +15,16 @@ export default function App() {
 
 
   return (
-    <View style={styles.container}>
+    <NativeBaseProvider theme={THEME}>
       <StatusBar style='light' backgroundColor='transparent' translucent />
-      {fontsLoaded ? <Text>aaaaa</Text> : <Text>bbbbbb</Text>}
-    </View>
+      {
+        fontsLoaded ?
+          <Signin />
+          :
+          <Loading />
+      }
+
+    </NativeBaseProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#202024',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
