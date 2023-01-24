@@ -1,8 +1,6 @@
 import { Input as NBInput, IInputProps } from 'native-base';
 
 
-
-
 export const Input = (props: IInputProps) => {
   return (
     <NBInput
