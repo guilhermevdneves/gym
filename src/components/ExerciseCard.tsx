@@ -7,9 +7,9 @@ type Props = TouchableOpacityProps & {
 
 }
 
-function ExerciseCard({ ...rest }: Props) {
+function ExerciseCard({ onPress, ...rest }: Props) {
   return (
-    <TouchableOpacity style={{ marginBottom: 10 }}>
+    <TouchableOpacity style={{ marginBottom: 10 }} onPress={onPress}>
       <HStack rounded="md" alignItems="center" p={2} pr={4} bg="gray.500">
         <Image
           source={{ uri: "https://i.pinimg.com/736x/34/2e/6c/342e6c1ce59633375988b4eb5a476970--ps-fitness.jpg" }}
@@ -18,6 +18,7 @@ function ExerciseCard({ ...rest }: Props) {
           h={16}
           rounded="md"
           mr={4}
+          resizeMode="cover"
         />
 
         <VStack flex={1}>

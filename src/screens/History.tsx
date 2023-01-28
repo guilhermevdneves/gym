@@ -10,8 +10,8 @@ function History() {
       title: '02/01/2023',
       data: ['Dumbbell row']
     }
+  ]);
 
-  ])
   return (
     <VStack flex={1}>
       <ScreenHeader title='History' />
