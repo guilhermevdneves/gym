@@ -6,11 +6,34 @@ import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 import ScreenHeader from '@components/ScreenHeader';
 import UserPhoto from '@components/UserPhoto';
-
+import * as ImagePicker from 'expo-image-picker';
 const PHOTO_SIZE = 33;
 
 function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState('https://github.com/guilhermevdneves.png');
+
+  async function handleUserPhotoSelection() {
+    setPhotoIsLoading(true);
+    try {
+      const selectedPhoto = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+        selectionLimit: 1
+      });
+
+      if (selectedPhoto.canceled) {
+        return;
+      }
+
+      setUserPhoto(selectedPhoto.assets[0].uri)
+      setPhotoIsLoading(false)
+    } catch (e) {
+      setPhotoIsLoading(false)
+    }
+  }
 
   return (
     <VStack flex={1}>
@@ -27,13 +50,13 @@ function Profile() {
               rounded="full" />
             :
             <UserPhoto
-              source={{ uri: 'https://github.com/guilhermevdneves.png' }}
+              source={{ uri: userPhoto }}
               alt='Profile photo'
               size={PHOTO_SIZE}
             />
           }
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleUserPhotoSelection}>
             <Text color="green.500" fontWeight="bold" mt={5} mb={8} >
               Change photo
             </Text>
