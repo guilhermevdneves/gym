@@ -6,7 +6,6 @@ import { NativeBaseProvider } from 'native-base';
 import { THEME } from './src/theme';
 import { Routes } from '@routes/index';
 
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,

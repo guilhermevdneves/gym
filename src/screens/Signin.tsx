@@ -71,7 +71,6 @@ function SignIn() {
           <Heading color="gray.100" fontSize="sm" mb={6} fontFamily="body">
             Ainda não tem acesso?
           </Heading>
-
           <Button title='Criar conta' variant="outline" onPress={handleNewAccount} />
         </Center>
       </VStack>
