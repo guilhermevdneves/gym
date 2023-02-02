@@ -1,12 +1,13 @@
 import React from 'react';
 import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import BackgroundImg from '@assets/background.png';
 import LogoSvg from '@assets/logo.svg';
-
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
-
 import { useNavigation } from '@react-navigation/native';
 
 type FormDataProps = {
@@ -16,9 +17,17 @@ type FormDataProps = {
   confirmPassword: string;
 }
 
+
+const signUpSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  email: yup.string().required('Email is required').email('Email is invaild'),
+  password: yup.string().required('Password is required').min(6, 'Password must have at least 6 characters'),
+  confirmPassword: yup.string().required('Password confirmation is required').oneOf([yup.ref('password'), null], 'Passwords must match')
+})
+
 function SignUp() {
   const navigation = useNavigation();
-  const { control, handleSubmit } = useForm<FormDataProps>();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({ resolver: yupResolver(signUpSchema) });
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -56,15 +65,10 @@ function SignUp() {
               <Input
                 value={value}
                 onChangeText={onChange}
-                mb={4}
                 placeholder="Name"
                 placeholderTextColor="gray.300"
                 autoCapitalize='words'
-                _focus={{
-                  bg: "gray.700",
-                  borderWidth: 1,
-                  borderColor: "green.500"
-                }}
+                errorMessage={errors.name?.message}
               />
             )}
           />
@@ -76,16 +80,13 @@ function SignUp() {
               <Input
                 value={value}
                 onChangeText={onChange}
-                mb={4}
+                mt={4}
                 placeholder="E-mail"
                 placeholderTextColor="gray.300"
                 keyboardType='email-address'
                 autoCapitalize='none'
-                _focus={{
-                  bg: "gray.700",
-                  borderWidth: 1,
-                  borderColor: "green.500"
-                }}
+                errorMessage={errors.email?.message}
+
               />
             )}
           />
@@ -97,20 +98,15 @@ function SignUp() {
               <Input
                 value={value}
                 onChangeText={onChange}
-                mb={4}
+                mt={4}
                 placeholder="Password"
                 placeholderTextColor="gray.300"
                 secureTextEntry
                 autoCapitalize='none'
-                _focus={{
-                  bg: "gray.700",
-                  borderWidth: 1,
-                  borderColor: "green.500"
-                }}
+                errorMessage={errors.password?.message}
               />
             )}
           />
-
 
           <Controller
             control={control}
@@ -119,22 +115,18 @@ function SignUp() {
               <Input
                 value={value}
                 onChangeText={onChange}
-                mb={4}
-                placeholder="Confirm password"
+                mt={4}
+                placeholder="Confirm your password"
                 placeholderTextColor="gray.300"
                 secureTextEntry
                 autoCapitalize='none'
                 returnKeyType='send'
-                _focus={{
-                  bg: "gray.700",
-                  borderWidth: 1,
-                  borderColor: "green.500"
-                }}
+                errorMessage={errors.confirmPassword?.message}
               />
             )}
           />
 
-          <Button title='Create' onPress={handleSubmit(handleSignUp)} />
+          <Button title='Create' mt={4} onPress={handleSubmit(handleSignUp)} />
         </Center>
 
         <Center mt={24} >
